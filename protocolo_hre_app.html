@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo de Ação HRE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals (Amber 50) with Clinical Semantics (Green 600, Yellow 600, Red 600) -->
+    <!-- Application Structure Plan: The SPA is designed as a task-oriented "Interactive Protocol Guide." Instead of a linear document, it uses a tabbed-interface (three main buttons). This structure was chosen because the user (a therapist) needs an immediate, context-specific answer ("What do I do for Nível 2?"). Clicking a level button dynamically displays ONLY the relevant protocol, reducing cognitive load and scrolling, making it a faster and more usable tool in a clinical setting. -->
+    <!-- Visualization & Content Choices: Report Info: Three-level procedural protocol. Goal: Organize/Inform. Viz/Presentation Method: Interactive Tabbed Layout (HTML/Tailwind buttons) and Dynamic Content Cards (HTML/JS). Interaction: onClick on a level button shows the corresponding content card and hides others (via JS). Justification: This directly maps to the user's decision-making process. No charts (Chart.js/Plotly) are used as the source report contains no quantitative data, only procedures. The hierarchy is visualized through the HTML structure itself. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 text-gray-900 font-sans">
+
+    <main class="container mx-auto p-4 md:p-8 max-w-4xl">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Protocolo de Ação para Alertas</h1>
+            <p class="text-lg text-gray-600">(Check-in Diário)</p>
+            <!-- NOVO SUBTÍTULO ADICIONADO DO PROMPT -->
+            <p class="text-md text-gray-500 mt-2">Fundamentado no Protocolo Universal (UniPro) e Princípios de PFA/SBT</p>
+        </header>
+
+        <section class="mb-8 p-5 bg-white rounded-lg shadow-md border-l-4 border-blue-600">
+            <h2 class="text-2xl font-bold text-blue-800 mb-3 flex items-center">
+                <span class="text-2xl mr-3">🛡️</span>
+                Princípio Central (UniPro)
+            </h2>
+            <p class="text-base md:text-lg">
+                <!-- TEXTO ATUALIZADO: criança -> aprendiz -->
+                A prioridade absoluta é a segurança, dignidade e bem-estar do <strong>aprendiz</strong>. A sessão só avança para o ensino de habilidades (SBT) se o <strong>aprendiz</strong> estiver em um estado <strong>"Feliz, Relaxado e Engajado" (HRE)</strong>. Este check-in é a nossa primeira avaliação de viabilidade para o HRE.
+            </p>
+        </section>
+
+        <section id="check-in-tool">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Guia Rápido de Ação</h2>
+            <p class="text-lg text-gray-700 mb-6">
+                Este é um guia interativo. Selecione o nível de alerta observado para ver o protocolo de ação imediata correspondente.
+            </p>
+
+            <nav class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <!-- Adicionado data-level="1" -->
+                <button id="btn-level-1" data-level="1" class="nav-btn p-4 rounded-lg text-lg font-bold shadow-md transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 bg-green-600 text-white hover:bg-green-700 focus:ring-green-500">
+                    Nível 1: Padrão / HRE
+                </button>
+                <!-- Adicionado data-level="2" -->
+                <button id="btn-level-2" data-level="2" class="nav-btn p-4 rounded-lg text-lg font-bold shadow-md transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-400">
+                    Nível 2: Alerta Leve
+                </button>
+                <!-- Adicionado data-level="3" -->
+                <button id="btn-level-3" data-level="3" class="nav-btn p-4 rounded-lg text-lg font-bold shadow-md transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-offset-2 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500">
+                    Nível 3: Alerta Urgente
+                </button>
+            </nav>
+
+            <div id="content-area" class="mt-8">
+                
+                <div id="initial-prompt" class="text-center p-12 bg-gray-100 rounded-lg shadow-inner">
+                    <p class="text-xl text-gray-600">Selecione um nível de alerta acima para começar.</p>
+                </div>
+
+                <!-- CONTEÚDO NÍVEL 1: Título atualizado para corresponder ao prompt (semelhante) -->
+                <article id="content-level-1" class="protocol-content hidden bg-white p-6 rounded-lg shadow-xl border-t-8 border-green-600">
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">🟩 Nível 1: Observação/HRE Padrão</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">🎯 Gatilho</h4>
+                            <p class="text-gray-700">Nenhum alerta significativo (Nível 1).</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">▶️ Ação Imediata (Terapeuta)</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Iniciar a sessão estabelecendo o estado "Feliz, Relaxado e Engajado" (HRE), conforme o UniPro.</li>
+                                <!-- Correção 3: Exemplo de validação atualizado -->
+                                <li><strong>Validar o relato:</strong> Validar verbalmente o relato do cuidador de forma empática (Ex: "Que ótimo que a noite foi tranquila! Vamos começar brincando com [atividade preferida].").</li>
+                                <li><strong>Construir Rapport:</strong> Garantir que o rapport esteja sólido antes de iniciar os ramos de ensino (SBT).</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">👤 Responsável</h4>
+                            <p class="text-gray-700">Terapeuta Aplicador.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">💬 Comunicação</h4>
+                            <p class="text-gray-700">Nenhuma comunicação urgente.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- CONTEÚDO NÍVEL 2: Título e texto atualizados para corresponder ao prompt -->
+                <article id="content-level-2" class="protocol-content hidden bg-white p-6 rounded-lg shadow-xl border-t-8 border-yellow-500">
+                    <h3 class="text-2xl font-bold text-yellow-800 mb-4">🟨 Nível 2: Alerta - Foco em Rapport e Regulação (HRE Estendido)</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">🎯 Gatilhos</h4>
+                            <p class="text-gray-700">Alertas de Nível 2 (Dor, Doença, Sono Ruim, Estressor) que impactam o humor e a regulação.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">▶️ Ação Imediata (Terapeuta)</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li><strong>Honrar a Comunicação:</strong> O alerta (Ex: letargia, irritabilidade) é uma comunicação válida. A prioridade da sessão muda imediatamente de "Ensino de Habilidades (SBT)" para "Construção de Rapport e Regulação".</li>
+                                <!-- TEXTO ATUALIZADO (MAIS DETALHADO) -->
+                                <li class="font-bold text-red-700">Garantir Autonomia (HRE Estendido): Não iniciar o ensino.</li>
+                                <li>Oferecer acesso liberal e não-contingente (NCR) aos reforçadores e atividades preferidas (o "Ambiente HRE"). O objetivo é co-regular e restabelecer o HRE.</li>
+                                <!-- TEXTO ATUALIZADO (MAIS DETALHADO) -->
+                                <!-- Correção 2: "que ensinam tolerância" removido -->
+                                <li class="font-bold text-red-700">Evitar Coerção (Princípio UniPro): Não usar extinção. Não avançar para os ramos de ensino (SBT).</li>
+                                <!-- Correção 1: "ramo HRE" -> "HRE (reforços sintetizados)" -->
+                                <li>Manter a sessão no HRE (reforços sintetizados) pelo tempo que for necessário.</li>
+                                <li><strong>Monitorar Sinais:</strong> Se houver suspeita de dor, monitorar ativamente e comunicar.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">👤 Responsável</h4>
+                            <p class="text-gray-700">Terapeuta Aplicador.</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">💬 Comunicação</h4>
+                            <p class="text-gray-700 mb-2">Comunicar ao Supervisor/Coordenador na primeira oportunidade.</p>
+                            <!-- TÍTULO ADICIONADO AO EXEMPLO -->
+                            <p class="text-gray-700 font-semibold mb-1">Exemplo de Comunicação (UniPro):</p>
+                            <blockquote class="border-l-4 border-gray-300 pl-4 py-2 bg-gray-50 text-gray-600 italic">
+                                "Paciente em Nível 2. Honrando os precursores/sinais. Sessão de hoje focada 100% em HRE e rapport."
+                            </blockquote>
+                        </div>
+                    </div>
+                </article>
+                
+                <!-- CONTEÚDO NÍVEL 3: Título e texto atualizados para corresponder ao prompt -->
+                <article id="content-level-3" class="protocol-content hidden bg-white p-6 rounded-lg shadow-xl border-t-8 border-red-600">
+                    <h3 class="text-2xl font-bold text-red-800 mb-4">🟥 Nível 3: Alerta Vermelho - Protocolo de Segurança (Sessão Pausada)</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">🎯 Gatilhos</h4>
+                            <p class="text-gray-700">Alertas de Nível 3 (Sinais Físicos, Medicação, Sintoma Grave, Estressor Grave).</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">▶️ Ação Imediata (Terapeuta)</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <!-- TEXTO ATUALIZADO (UniPro + PCM) -->
+                                <li class="font-bold text-red-700">Prioridade Absoluta (Segurança): A intervenção terapêutica é pausada. O foco é 100% em segurança, acolhimento e protocolo de segurança da clínica (UniPro + PCM).</li>
+                                <!-- TEXTO ATUALIZADO: criança -> aprendiz -->
+                                <li class="font-bold">Manter o Ambiente HRE:</span> Enquanto a coordenação é acionada, manter o <strong>aprendiz</strong> no ambiente HRE, oferecendo autonomia total e conforto para minimizar o estresse e garantir a segurança emocional.</li>
+                                <!-- TEXTO ATUALIZADO: criança -> aprendiz -->
+                                <li><strong>Documentação (Se aplicável):</strong> Chamar imediatamente o coordenador para realizar o registro objetivo (fotográfico) conforme protocolo da clínica, sempre de forma digna e respeitosa ao <strong>aprendiz</strong>.</li>
+                                <li class="font-bold text-red-700">Comunicação Urgente: Acionar a Coordenação/Diretoria imediatamente.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800 mb-1">👤 Responsável</h4>
+                            <p class="text-gray-700">Terapeuta (pela segurança imediata) e Coordenação (pelo acionamento do protocolo).</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-lg font-semibold text-red-700 mb-1">💬 Comunicação: ❗ IMEDIATA E URGENTE</h4>
+                            <!-- TEXTO ATUALIZADO (MAIS DIRETO) -->
+                            <p class="text-gray-700">Imediata e urgente à Coordenação/Diretoria.</p>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- RODAPÉ ATUALIZADO COM LOGO E LAYOUT RESPONSIVO -->
+        <footer class="mt-12 pt-8 border-t border-gray-300 text-gray-500 text-sm">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left gap-6">
+                <!-- Coluna das Referências -->
+                <div class="md:flex-1">
+                    <h3 class="text-base font-semibold text-gray-600">Referências</h3>
+                    <div class="mt-2 space-y-1">
+                        <p>HANLEY, G. P. (2021). A Perspective on Today’s ABA. <i>Practical Functional Assessment</i>.</p>
+                        <p>CARR, E. G. et al. (2002). Positive behavior support: Evolution of an applied science. <i>Journal of Positive Behavior Interventions, 4</i>(1), 4-16.</p>
+                        <p>COOPER, J. O.; HERON, T. E.; HEWARD, W. L. (2020). <i>Applied behavior analysis</i> (3rd ed.). Pearson.</p>
+                    </div>
+                </div>
+                <!-- Coluna do Logo -->
+                <div class="flex-shrink-0">
+                    <img src="logo extraordinário.jpg" alt="Logo Extraordinário Intervenção Comportamental" class="h-16" onerror="this.alt='Logo não pôde ser carregado'; this.style.opacity='0.5';">
+                </div>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- SCRIPT REATORADO (MAIS LIMPO E PROFISSIONAL) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Seleciona os elementos principais
+            const navContainer = document.querySelector('nav.grid');
+            const contentPanes = document.querySelectorAll('.protocol-content');
+            const initialPrompt = document.getElementById('initial-prompt');
+            
+            // Mapeamento de classes de 'foco' (anel) para cada nível
+            const activeClasses = {
+                '1': 'ring-green-500',
+                '2': 'ring-yellow-400',
+                '3': 'ring-red-500'
+            };
+            
+            // --- Refatoração: Delegação de Eventos ---
+            // Em vez de adicionar 3 'event listeners', adicionamos apenas 1 ao container pai.
+            // Isso é mais eficiente e torna o código mais limpo.
+            navContainer.addEventListener('click', (event) => {
+                // Encontra o botão exato que foi clicado, mesmo se o clique for no texto dentro dele
+                const clickedButton = event.target.closest('.nav-btn');
+
+                // Se o clique não foi em um botão (.nav-btn), não faz nada
+                if (!clickedButton) return;
+
+                // Pega o nível a partir do atributo 'data-level' que adicionamos no HTML
+                const level = clickedButton.dataset.level;
+                if (!level) return; // Se o botão não tiver data-level, ignora
+
+                // Esconde a mensagem inicial
+                initialPrompt.classList.add('hidden');
+
+                // 1. Atualiza os painéis de conteúdo
+                // Esconde todos os painéis...
+                contentPanes.forEach(pane => {
+                    pane.classList.add('hidden');
+                });
+                // ...e mostra apenas o painel correto
+                const contentToShow = document.getElementById(`content-level-${level}`);
+                if (contentToShow) {
+                    contentToShow.classList.remove('hidden');
+                }
+
+                // 2. Atualiza os estilos dos botões
+                // Itera por todos os botões dentro do 'nav'
+                navContainer.querySelectorAll('.nav-btn').forEach(btn => {
+                    const btnLevel = btn.dataset.level;
+                    
+                    // Remove todas as classes de anel ativas de todos os botões
+                    Object.values(activeClasses).forEach(activeClass => {
+                        btn.classList.remove('ring-4', 'ring-offset-2', activeClass);
+                    });
+
+                    // Adiciona a classe de anel ativa apenas ao botão que foi clicado
+                    if (btnLevel === level) {
+                        btn.classList.add('ring-4', 'ring-offset-2', activeClasses[level]);
+                    }
+                });
+            });
+            
+            // Não precisamos mais da lógica antiga de 'showContent' ou
+            // dos 3 'addEventListener' individuais, pois o 'listener'
+            // do 'navContainer' cuida de tudo.
+        });
+    </script>
+
+</body>
+</html>
+
